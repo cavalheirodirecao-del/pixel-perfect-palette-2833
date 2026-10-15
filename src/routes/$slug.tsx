@@ -3,7 +3,7 @@ import { getStore } from "@/lib/stores.functions";
 import { StorePage } from "@/components/StorePage";
 
 export const Route = createFileRoute("/$slug")({
-  validateSearch: (s: Record<string, unknown>): { indisponivel?: number } => (s.indisponivel ? { indisponivel: 1 } : {}),
+  validateSearch: (s: Record<string, unknown>): { indisponivel?: number } => (s['indisponivel'] ? { indisponivel: 1 } : {}),
   loader: async ({ params }) => {
     const store = await getStore({ data: { slug: params.slug } });
     if (!store) throw notFound();

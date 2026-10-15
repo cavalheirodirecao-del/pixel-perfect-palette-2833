@@ -74,7 +74,7 @@ function StoreForm({ store }: { store: Partial<Store> }) {
     const { error } = store.id
       ? await supabase.from("stores").update(payload).eq("id", store.id)
       : await supabase.from("stores").insert(payload);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Loja salva"); qc.invalidateQueries({ queryKey: ["stores"] });
     if (!store.id) setF({});
   }
@@ -105,10 +105,10 @@ function SellerRow({ seller, stores }: { seller: Partial<Seller>; stores: Store[
   const qc = useQueryClient();
   const [f, setF] = useState<Partial<Seller>>(seller);
   async function save() {
-    if (!f.store_id || !f.name) return toast.error("Informe nome e loja");
+    if (!f.store_id || !f.name) { toast.error("Informe nome e loja"); return; }
     const payload = { ...f, store_id: f.store_id, name: f.name, rotation_order: Number(f.rotation_order ?? 0) };
     const { error } = seller.id ? await supabase.from("sellers").update(payload).eq("id", seller.id) : await supabase.from("sellers").insert(payload);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Vendedor salvo"); qc.invalidateQueries({ queryKey: ["sellers"] });
     if (!seller.id) setF({});
   }

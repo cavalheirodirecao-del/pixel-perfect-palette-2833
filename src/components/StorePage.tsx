@@ -8,7 +8,7 @@ export type StoreView = {
   instagram_url: string | null; threads_url: string | null; tiktok_url: string | null;
 };
 
-function LinkButton({ href, icon: Icon, title, desc }: { href: string; icon: typeof MapPin; title: string; desc?: string }) {
+function LinkButton({ href, icon: Icon, title, desc }: { href: string; icon: typeof MapPin; title: string; desc?: string | undefined }) {
   return (
     <a href={href} className="link-card" rel="nofollow">
       <span className="flex items-center justify-center gap-2 font-display text-xl font-semibold tracking-wide">
