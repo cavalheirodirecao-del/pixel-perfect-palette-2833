@@ -14,16 +14,192 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      redirect_events: {
+        Row: {
+          action_type: string
+          created_at: string
+          id: string
+          referrer: string | null
+          seller_id: string | null
+          store_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          id?: string
+          referrer?: string | null
+          seller_id?: string | null
+          store_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          referrer?: string | null
+          seller_id?: string | null
+          store_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redirect_events_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redirect_events_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sellers: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          last_selected_at: string | null
+          name: string
+          retail_url: string | null
+          rotation_order: number
+          store_id: string
+          whatsapp_url: string | null
+          wholesale_url: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          last_selected_at?: string | null
+          name: string
+          retail_url?: string | null
+          rotation_order?: number
+          store_id: string
+          whatsapp_url?: string | null
+          wholesale_url?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          last_selected_at?: string | null
+          name?: string
+          retail_url?: string | null
+          rotation_order?: number
+          store_id?: string
+          whatsapp_url?: string | null
+          wholesale_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sellers_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stores: {
+        Row: {
+          active: boolean
+          address: string | null
+          cover_image: string | null
+          created_at: string
+          description: string | null
+          general_contact_url: string | null
+          id: string
+          instagram_url: string | null
+          logo_image: string | null
+          maps_url: string | null
+          name: string
+          slug: string
+          sort_order: number
+          threads_url: string | null
+          tiktok_url: string | null
+        }
+        Insert: {
+          active?: boolean
+          address?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          general_contact_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          logo_image?: string | null
+          maps_url?: string | null
+          name: string
+          slug: string
+          sort_order?: number
+          threads_url?: string | null
+          tiktok_url?: string | null
+        }
+        Update: {
+          active?: boolean
+          address?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          general_contact_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          logo_image?: string | null
+          maps_url?: string | null
+          name?: string
+          slug?: string
+          sort_order?: number
+          threads_url?: string | null
+          tiktok_url?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      pick_seller: {
+        Args: { _action: string; _ref: string; _slug: string; _ua: string }
+        Returns: {
+          fallback: string
+          url: string
+        }[]
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +326,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
