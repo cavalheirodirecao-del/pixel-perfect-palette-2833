@@ -1,24 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { listStores } from "@/lib/stores.functions";
+import logo from "@/assets/logo.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  loader: () => listStores(),
+  head: () => ({ meta: [
+    { title: "Cavalheiro Camisaria — Nossas lojas" },
+    { name: "description", content: "Escolha a unidade Cavalheiro Camisaria mais próxima de você." },
+    { property: "og:title", content: "Cavalheiro Camisaria — Nossas lojas" },
+    { property: "og:description", content: "Escolha a unidade Cavalheiro Camisaria mais próxima de você." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const stores = Route.useLoaderData();
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="mx-auto min-h-screen w-full max-w-[480px] bg-background px-6 py-12 text-center">
+      <img src={logo} alt="Cavalheiro Camisaria" width={128} height={128} className="mx-auto h-32 w-32 rounded-full border-2 border-gold" />
+      <h1 className="mt-6 font-display text-4xl font-semibold">Nossas lojas</h1>
+      <p className="mt-2 text-sm text-muted-foreground">Escolha a sua unidade</p>
+      <nav className="mt-8 flex flex-col gap-3">
+        {stores.map((s) => (
+          <Link key={s.slug} to="/$slug" params={{ slug: s.slug }} search={{ indisponivel: undefined }} className="link-card font-display text-xl font-semibold">{s.name}</Link>
+        ))}
+      </nav>
+    </main>
   );
 }
