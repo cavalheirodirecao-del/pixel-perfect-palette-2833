@@ -23,7 +23,7 @@ function Index() {
       <p className="mt-2 text-sm text-muted-foreground">Escolha a sua unidade</p>
       <nav className="mt-8 flex flex-col gap-3">
         {stores.map((s) => (
-          <Link key={s.slug} to="/$slug" params={{ slug: s.slug }} search={{ indisponivel: undefined }} className="link-card font-display text-xl font-semibold">{s.name}</Link>
+          <Link key={s.slug} to="/$slug" params={{ slug: s.slug }} search={{}} className="link-card font-display text-xl font-semibold">{s.name}</Link>
         ))}
       </nav>
     </main>

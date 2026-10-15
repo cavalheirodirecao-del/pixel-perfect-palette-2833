@@ -151,7 +151,7 @@ function SellersTab() {
       </select>
       {list.map((s) => <SellerRow key={s.id} seller={s} stores={stores} />)}
       <h3 className="font-display text-xl">Novo vendedor</h3>
-      <SellerRow seller={{ store_id: filter || undefined }} stores={stores} key={"new" + filter} />
+      <SellerRow seller={filter ? { store_id: filter } : {}} stores={stores} key={"new" + filter} />
     </div>
   );
 }
