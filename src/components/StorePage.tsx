@@ -1,4 +1,4 @@
-import { Instagram, MapPin, MessageCircle, ShoppingBag, Package, AtSign, Music2 } from "lucide-react";
+import { Instagram, MapPin, MessageCircle, AtSign, Music2 } from "lucide-react";
 import defaultCover from "@/assets/cover.jpg";
 import defaultLogo from "@/assets/logo.jpg";
 
@@ -56,10 +56,8 @@ export function StorePage({ store, unavailable, generalContact }: { store: Store
         </div>
       )}
 
-      <nav className="mt-8 flex flex-col gap-3 px-6">
-        <LinkButton href={`/redirect/${store.slug}/whatsapp`} icon={MessageCircle} title="Fale com um consultor" desc="Atendimento personalizado pelo WhatsApp" />
-        <LinkButton href={`/redirect/${store.slug}/atacado`} icon={Package} title="Compre On-line no Atacado" desc="A partir de 10 peças, direto do fornecedor" />
-        <LinkButton href={`/redirect/${store.slug}/varejo`} icon={ShoppingBag} title="Compre On-line no Varejo" desc="Compre sem quantidade mínima" />
+      <nav className="mt-8 flex flex-col gap-3 px-6" aria-label="Atendimento da loja">
+        <LinkButton href={`/redirect/${store.slug}/whatsapp`} icon={MessageCircle} title="Fale com um vendedor" desc="Atendimento pelo WhatsApp" />
         {maps && <LinkButton href={maps} icon={MapPin} title="Endereço da loja" desc={store.address ?? undefined} />}
       </nav>
     </main>
