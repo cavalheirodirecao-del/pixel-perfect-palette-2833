@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SlugRouteImport } from './routes/$slug'
+import { Route as RedirectLojaTipoRouteImport } from './routes/redirect.$loja.$tipo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedirectLojaTipoRoute = RedirectLojaTipoRouteImport.update({
+  id: '/redirect/$loja/$tipo',
+  path: '/redirect/$loja/$tipo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/redirect/$loja/$tipo': typeof RedirectLojaTipoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/redirect/$loja/$tipo': typeof RedirectLojaTipoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/redirect/$loja/$tipo': typeof RedirectLojaTipoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/$slug' | '/redirect/$loja/$tipo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/$slug' | '/redirect/$loja/$tipo'
+  id: '__root__' | '/' | '/$slug' | '/redirect/$loja/$tipo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
+  RedirectLojaTipoRoute: typeof RedirectLojaTipoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/redirect/$loja/$tipo': {
+      id: '/redirect/$loja/$tipo'
+      path: '/redirect/$loja/$tipo'
+      fullPath: '/redirect/$loja/$tipo'
+      preLoaderRoute: typeof RedirectLojaTipoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
+  RedirectLojaTipoRoute: RedirectLojaTipoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -18,7 +18,7 @@ export function publicClient() {
 }
 
 const COLS =
-  "name, slug, description, cover_image, logo_image, address, maps_url, instagram_url, threads_url, tiktok_url";
+  "name, slug, description, cover_image, logo_image, address, maps_url, instagram_url, threads_url, tiktok_url, general_contact_url";
 
 export const getStore = createServerFn({ method: "GET" })
   .inputValidator((d: { slug: string }) => d)

@@ -25,5 +25,5 @@ export const Route = createFileRoute("/$slug")({
 function Page() {
   const { store } = Route.useLoaderData();
   const { indisponivel } = Route.useSearch();
-  return <StorePage store={store} unavailable={!!indisponivel} />;
+  return <StorePage store={store} unavailable={!!indisponivel} generalContact={store.general_contact_url} />;
 }
